@@ -1,0 +1,37 @@
+" This file will be loaded at the end of .vimrc.
+" This file is designed to add your own vim scripts or override the exVim's .vimrc settings.
+
+set fileformats=unix,dos
+
+" tab
+set expandtab                   " expand tabs to spaces
+set smarttab
+set shiftround
+
+" indent
+set autoindent smartindent shiftround
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4                " insert mode tab and backspace use 4 spaces
+
+
+let g:number_opening = 1
+function g:ToggleRichWindows()
+
+    if g:number_opening == 1
+        TagbarClose
+        set nonumber
+        let g:number_opening = 0
+    else
+        TagbarOpen
+        set number
+        let g:number_opening =1
+    endif
+
+endfunction
+
+command! -nargs=0 RichWindowToggle call g:ToggleRichWindows()
+nnoremap <silent> <F1> :RichWindowToggle<CR>
+
+
+

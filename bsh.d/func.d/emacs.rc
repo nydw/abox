@@ -1,0 +1,8 @@
+function iv() {
+    ps -ef|grep [e]macs > /dev/null
+    if [ $? -ne 0 ];then
+        emacs --daemon
+    fi
+
+    emacsclient -t $*
+}

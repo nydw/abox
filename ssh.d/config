@@ -1,0 +1,8 @@
+TCPKeepAlive=yes
+ServerAliveInterval 10
+
+user [default username]
+Host [simple hostname]
+    HostName [real hostname]
+    user [username]
+

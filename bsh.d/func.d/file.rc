@@ -1,0 +1,167 @@
+function private
+{
+    find $HOME -type d -exec chmod 700 {} \;
+    find $HOME -type f -exec chmod 600 {} \;
+    find $HOME/bin -type f -exec chmod +x {} \;
+}
+
+function ds
+{
+    echo "Size of Directories in MB"
+    if [ $# -lt 1 ] || [ $# -gt 2 ]; then
+        echo "Please specify a directory! By default, using pwd"
+        echo "USAGE: ds [dir]"
+        DIR=$(pwd)
+        find $DIR -maxdepth 1 -type d -exec du -sm \{\} \; | sort -nr
+    else
+        find $1 -maxdepth 1 -type d -exec du -sm \{\} \; | sort -nr
+    fi
+}
+
+function cuttail # cut last n lines in file, 10 by default
+{
+    nlines=${2:-10}
+    sed -n -e :a -e "1,${nlines}!{P;N;D;};N;ba" $1
+}
+
+function lowercase  # move filenames to lowercase
+{
+    for file ; do
+        filename=${file##*/}
+        case "$filename" in
+            */*) dirname==${file%/*}
+                ;;
+            *) dirname=.
+                ;;
+        esac
+        nf=$(echo $filename | tr A-Z a-z)
+        newname="${dirname}/${nf}"
+        if [ "$nf" != "$filename" ]; then
+            mv "$file" "$newname"
+            echo "lowercase: $file --> $newname"
+        else
+            echo "lowercase: $file not changed."
+        fi
+    done
+}
+
+
+function swap  # Swap 2 filenames around, if they exist
+{                #(from Uzi's bashrc).
+    local TMPFILE=tmp.$$
+
+    [ $# -ne 2 ] && echo "swap: 2 arguments needed" && return 1
+    [ ! -e $1 ] && echo "swap: $1 does not exist" && return 1
+    [ ! -e $2 ] && echo "swap: $2 does not exist" && return 1
+
+    mv "$1" $TMPFILE
+    mv "$2" "$1"
+    mv $TMPFILE "$2"
+}
+
+function extract      # Handy Extract Program.
+{
+     if [ -f $1 ] ; then
+         case $1 in
+             *.tar.bz2)   tar xvjf $1     ;;
+             *.tar.gz)    tar xvzf $1     ;;
+             *.bz2)       bunzip2 $1      ;;
+             *.rar)       unrar x $1      ;;
+             *.gz)        gunzip $1       ;;
+             *.tar)       tar xvf $1      ;;
+             *.tbz2)      tar xvjf $1     ;;
+             *.tgz)       tar xvzf $1     ;;
+             *.zip)       unzip $1        ;;
+             *.Z)         uncompress $1   ;;
+             *.7z)        7z x $1         ;;
+             *)           echo "'$1' cannot be extracted via >>extract<<" ;;
+         esac
+     else
+         echo "'$1' is not a valid file"
+     fi
+}
+
+function tarview
+{
+    echo -n "Display contents of $1 "
+    if [ ${1##*.} = tar ]
+    then
+        echo "(uncompressed tar)"
+        tar tvf $1
+    elif [ ${1##*.} == gz ]
+    then
+        echo "(gzip-compressed tar)"
+        tar tzvf $1
+    elif [ ${1##*.} = bz2 ]
+    then
+        echo "(bzip2-compressed tar)"
+        cat $1 | bzip2 -d | tar tvf -
+    fi
+}
+
+# ls && number of entrys
+function lf
+{
+    ls --color=tty --classify $*
+    echo "$(ls -l $* | wc -l) files"
+}
+
+# copy and go to dir
+cpg ()
+{
+  if [ $# -lt 2 ]; then
+    echo "Copy directory, and cd to it"
+    echo "USAGE: cpg dir-1 dir-2"
+  else
+    if [ -d "$2" ];then
+        cp $1 $2 && cd $2
+    else
+        cp $1 $2
+    fi
+  fi
+}
+
+# copy huge size dir
+cphg ()
+{
+    if [ $# -lt 2 ]; then
+        echo "Copy huge size directory: "
+        echo "Usage: cphg dir-1 dir-2"
+    else
+        if [ -d "$2" ]; then
+            (cd $1 && tar cf - .) | (cd $2 && tar xpvf -)
+        else
+            mkdir $2
+            (cd $1 && tar cf - .) | (cd $2 && tar xpvf -)
+        fi
+    fi
+}
+
+# move and go to dir
+mvg ()
+{
+  if [ $# -lt 2 ]; then
+    echo "Move directory, and cd to it"
+    echo "USAGE: mvg dir-1 dir-2"
+  else
+    if [ -d "$2" ];then
+        mv $1 $2 && cd $2
+    else
+        mv $1 $2
+    fi
+  fi
+}
+
+# make directory, then cd to the first directory
+mdcd ()
+{
+  if [ $# -lt 1 ]; then
+    echo "Make directory, then cd to the first one"
+    echo "USAGE: mdcd dir-1 [dir-2]"
+  else
+    mkdir $*
+    cd $1
+  fi
+}
+
+

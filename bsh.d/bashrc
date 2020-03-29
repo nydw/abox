@@ -1,0 +1,30 @@
+
+type=$(uname|awk -F"-" '{print $2}')
+if [[ "$type" == "MSYS_NT" ]];then
+    export MSYS="winsymlinks:lnk"
+fi
+
+export BASH_HOME=$(dirname "$(readlink $HOME/.bashrc)")
+export ABOX_HOME=$(dirname $BASH_HOME)
+
+dirs=$(ls $BASH_HOME)
+for dir in $dirs; do
+    dir=$BASH_HOME/$dir
+    if [[ ! -d $dir ]];then
+        continue
+    fi
+    files=$(ls $dir/*.rc)
+    for file in $files; do
+    if [ "${file##*.}"x = "rc"x ];then
+       source $file
+    fi
+    done
+done
+
+if [ -f $HOME/.local/.localrc ]; then
+  source $HOME/.local/.localrc
+fi
+
+if [ -f $HOME/.work_bashrc ]; then
+  source $HOME/.work_bashrc
+fi

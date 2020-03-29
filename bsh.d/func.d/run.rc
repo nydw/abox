@@ -1,0 +1,20 @@
+function runcc
+{
+   out=$1.out
+   g++ $1 -o $out -std=c++11;./$out
+   rm -f $out
+}
+
+function run
+{
+    filename=$1
+    extension="${filename##*.}"
+    case "$extension" in
+        "go") go run $filename ;;
+        "py") python $filename ;;
+        "php") php $filename ;;
+        "cpp") runcc $filename;;
+        "cc") runcc $filename;;
+        *) file $filename; return;;
+    esac
+}

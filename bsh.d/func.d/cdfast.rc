@@ -1,0 +1,19 @@
+function cdgit {
+    curpath=$(pwd)
+    while $true
+    do
+        if [[ -d ${curpath}/.git ]];then
+            cd ${curpath};
+            return;
+        fi
+
+        curpath=`dirname $curpath`
+
+        echo $curpath;
+
+        if [[ ${curpath} == "/" ]];then
+            return;
+        fi
+
+    done
+}

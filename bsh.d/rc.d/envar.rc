@@ -1,0 +1,45 @@
+#----------------------------------------------
+# static environment variable
+#----------------------------------------------
+
+export LC_ALL=C
+export NOCOLOR=1
+export EDITOR=vim
+export MAILCHECK=0
+export LANG=en_US.utf8
+export LC_ALL=en_US.UTF-8
+export RZSZLINE=/dev/modem
+export TERM=xterm-256color
+
+export HISTSIZE=1000000
+export HISTFILESIZE=20000000
+export HISTCONTROL=ignoredups
+export HISTIGNORE="&:bg:fg:ll:h"
+export HISTTIMEFORMAT="%Y%m%d-%H:%M:%S > "
+
+#mac ls colors
+export LSCOLORS=Exfxhxhxgxhxhxgxgxbxbx
+export CLICOLOR=1
+
+export PAGER='less -Em'
+export LESSCHARSET='latin1'
+export LESSOPEN='|/usr/bin/lesspipe.sh %s 2>&-'
+export LESS='-i -N -w  -z-4 -g -e -M -X -F -R -P%t?f%f :stdin .?pb%pb\%:?lbLine %lb:?bbByte %bb:-...'
+
+export TIMEFORMAT=$'\nreal %3R\tuser %3U\tsys %3S\tpcpu %P\n'
+
+export PROMPT_COMMAND='echo -en "$Cyan["`date +%F\ %T`"] "; echo -e "$BGreen"`pwd`${NC}'
+PS1='\[\033[0;48m\]\H \[\033[1;33m\]@\[\033[0;35m\]\u\[\033[1;37m\]:\$ \[\033[m\]'
+
+#----------------------------------------------
+# dynamic environment variable
+#----------------------------------------------
+
+umask 077
+OS=$(uname)
+ulimit -S -c 0      # Don't want any coredumps
+
+set -o notify       # notify when jobs running background terminated
+set -o noclobber    # prevents catting over file
+set -o ignoreeof    # can not C-d out of shell
+

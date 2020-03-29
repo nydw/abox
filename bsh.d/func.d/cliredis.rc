@@ -1,0 +1,16 @@
+function cliredis
+{
+    string=$1
+    array=(${string//:/ })
+
+    len=${#array[@]}
+    host=${array[0]}
+    port=${array[1]}
+
+    auth=""
+    if [[ $len -eq 3 ]];then
+        auth="-a ${array[2]}"
+    fi
+
+    redis-cli -h $host -p $port $auth
+}

@@ -1,0 +1,21 @@
+shopt -s cdspell
+shopt -s cmdhist
+shopt -s extglob
+shopt -s checkhash
+shopt -s checkwinsize
+shopt -s cdable_vars
+shopt -s histappend
+shopt -s histreedit
+shopt -s histverify
+shopt -s nocaseglob
+shopt -s sourcepath
+shopt -s no_empty_cmd_completion
+
+# Disable options:
+shopt -u mailwarn
+
+
+# unusing options
+
+#shopt -s checkjobs
+#shopt -s dirspell

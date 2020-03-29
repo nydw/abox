@@ -1,0 +1,27 @@
+
+function my_ip # Get IP adresses.
+{
+    MY_IP=$(/sbin/ifconfig ppp0 | awk '/inet/ { print $2 } ' | sed -e s/addr://)
+    MY_ISP=$(/sbin/ifconfig ppp0 | awk '/P-t-P/ { print $3 } ' | sed -e s/P-t-P://)
+}
+
+function sysinfo   # Get current host related info.
+{
+    echo -e "\n${fg_RED}You are logged on:$NC " ; hostname
+    echo -e "\n${fg_RED}Additionnal information:$NC " ; uname -a
+    echo -e "\n${fg_RED}Users logged on:$NC " ; w -h
+    echo -e "\n${fg_RED}Current date :$NC " ; date
+    echo -e "\n${fg_RED}Machine stats :$NC " ; uptime
+    echo -e "\n${fg_RED}Memory stats :$NC " ; free -m
+    echo -e "\n${fg_RED}Disk space:$NC " ; df -h
+    echo -e "\n${fg_RED}Network:$NC " ; ifconfig|grep netmask|awk '/inet/ {print $2}'|sort
+
+#    my_ip 2>&- ;
+#    echo -e "\n${fg_RED}Local IP Address :$NC" ; echo ${MY_IP:-"Not connected"}
+#    echo -e "\n${fg_RED}ISP Address :$NC" ; echo ${MY_ISP:-"Not connected"}
+
+    echo -e "\n${fg_RED}Open connections :$NC "; netstat -pan --inet;
+    echo
+}
+
+#

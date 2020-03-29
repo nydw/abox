@@ -1,0 +1,47 @@
+function psg
+{
+    if [ $# -lt 1 ] || [ $# -gt 1 ]; then
+        echo "grep running processes"
+        echo "USAGE: psg [process]"
+    else
+        ps aux | grep USER | grep -v grep
+        ps aux | grep -i $1 | grep -v grep
+    fi
+}
+
+function my_ps { ps $@ -u $USER -o pid,%cpu,%mem,bsdtime,command ; }
+
+function pp { my_ps f | awk '!/awk/ && $0~var' var=${1:-".*"} ; }
+
+
+function killps                 # Kill by process name.
+{
+    local pid pname sig="-TERM"   # Default signal.
+    if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
+        echo "Usage: killps [-SIGNAL] pattern"
+        return;
+    fi
+    if [ $# = 2 ]; then sig=$1 ; fi
+    for pid in $(my_ps| awk '!/awk/ && $0~pat { print $1 }' pat=${!#} ) ; do
+        pname=$(my_ps | awk '$1~var { print $5 }' var=$pid )
+        if ask "Kill process $pid <$pname> with signal $sig?"
+            then kill $sig $pid
+        fi
+    done
+}
+
+function corename   # Get name of app that created a corefile.
+{
+    for file ; do
+        echo -n $file : ; gdb --core=$file --batch | head -1
+    done
+}
+
+# add restart emacs function
+function stop-emacs(){
+    emacsclient -e "(kill-emacs)"
+}
+function restart-emacs(){
+    emacsclient -e "(kill-emacs)"
+    emacs --daemon
+}

@@ -1,0 +1,119 @@
+
+#-------------------------------------------------------------
+# The print family
+#-------------------------------------------------------------
+
+alias print='/usr/bin/lp -o nobanner -d $LPDEST'
+alias pjet='enscript -h -G -fCourier9 -d $LPDEST'
+
+#-------------------------------------------------------------
+# The sysinfo family
+#-------------------------------------------------------------
+
+alias path='echo -e ${PATH//:/\\n}'
+alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
+
+alias duh='du -h'
+alias df='df -Th'
+
+#-------------------------------------------------------------
+# The danger family
+#-------------------------------------------------------------
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+alias reboot="type -P reboot;echo -e \"$BRed`hostname`\""
+alias shutdown="type -P shutdown;echo -e \"$BRed`hostname`\""
+
+
+#-------------------------------------------------------------
+# The 'cd' family
+#-------------------------------------------------------------
+
+alias ..='cd ..'
+alias cd.='cd ..'
+alias ...='cd ../..'
+alias cd..='cd ../..'
+
+alias cdd="pushd"
+alias cdr="dirs -v"
+alias cdc="dirs -c;pushd ~/"
+
+#-------------------------------------------------------------
+# The 'ls' family (this assumes you use a recent GNU ls)
+#-------------------------------------------------------------
+alias ll='ls -la'
+if [[ $(uname) != "Darwin" ]];then
+    alias ls='ls -hF --color=always'    # add colors for filetype recognition
+    alias ll='ls -lahF --time-style=long-iso --color=always'
+fi
+
+alias la='ls -A'                    # show hidden files
+alias lx='ls -lXB'                  # sort by extension
+alias lk='ls -lSr'                  # sort by size, biggest last
+alias lc='ls -ltcr'                 # sort by and show change time, most recent last
+alias lu='ls -ltur'                 # sort by and show access time, most recent last
+alias lt='ls -ltr'                  # sort by date, most recent last
+alias lm='ls -al |more'             # pipe through 'more'
+alias lr='ls -lR'                   # recursive ls
+alias tree='tree -Csu'              # nice alternative to 'recursive ls'
+
+#-------------------------------------------------------------
+# The editor family
+#-------------------------------------------------------------
+
+alias vio="vim -R"
+alias vip="vim my.exvim"
+alias virc='vim ~/.bashrc;source ~/.bashrc'
+alias emacs='emacs -nw'
+alias emacsd='emacs --daemon'
+
+#-------------------------------------------------------------
+# tailoring 'less'
+#-------------------------------------------------------------
+alias more='less'
+
+#-------------------------------------------------------------
+# spelling typos - highly personnal and keyboard-dependent :-)
+#-------------------------------------------------------------
+alias xs='cd'
+alias vf='cd'
+
+#-------------------------------------------------------------
+# Screen
+#-------------------------------------------------------------
+alias sc='screen -AdR -h 1000'
+
+#-------------------------------------------------------------
+# ps
+#-------------------------------------------------------------
+
+if [[ $(uname) != "Darwin" ]];then
+alias ps='ps xf -f'
+fi
+
+#-------------------------------------------------------------
+# grep
+#-------------------------------------------------------------
+
+alias grep='grep --color=auto -i'
+alias grepc="grep -n -r --include=*.[hc] -e schedule"
+
+#-------------------------------------------------------------
+# chmod
+#-------------------------------------------------------------
+
+alias cm755='chmod 755 -R'
+alias cm777='chmod 777 -R'
+alias cm700='chmod 700 -R'
+alias cm600='chmod 600 -R'
+
+alias cdrun="cd ~/playgroud"
+alias cdbox="cd $(dirname "$(readlink $HOME/.bashrc)")/../"
+
+
+
+alias javac='javac -J-Dfile.encoding=UTF-8 -encoding UTF-8'
+alias java='java -Dfile.encoding=UTF-8'

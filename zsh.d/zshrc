@@ -1,0 +1,58 @@
+export PROMPT="[%9F%?%f] %6F[%D %*] %f%B%2F%/%f%b
+%M %B%11F@%f%b%5F%n%f:%B\$%f%b "
+
+export HISTSIZE=10000000
+export SAVEHIST=10000000
+setopt BANG_HIST                 # Treat the '!' character specially during expansion.
+setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
+setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
+setopt SHARE_HISTORY             # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
+setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
+setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
+setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
+setopt HIST_BEEP                 # Beep when accessing nonexistent history.
+
+
+#-------------------------------------------------------------
+# The 'ls' family (this assumes you use a recent GNU ls)
+#-------------------------------------------------------------
+
+#mac ls colors
+export LSCOLORS=Exfxhxhxgxhxhxgxgxbxbx
+export CLICOLOR=1
+
+alias ll='ls -la'
+if [[ $(uname) != "Darwin" ]];then
+    alias ls='ls -hF --color=always'    # add colors for filetype recognition
+    alias ll='ls -lahF --time-style=long-iso --color=always'
+fi
+
+alias la='ls -A'                    # show hidden files
+alias lx='ls -lXB'                  # sort by extension
+alias lk='ls -lSr'                  # sort by size, biggest last
+alias lc='ls -ltcr'                 # sort by and show change time, most recent last
+alias lu='ls -ltur'                 # sort by and show access time, most recent last
+alias lt='ls -ltr'                  # sort by date, most recent last
+alias lm='ls -al |more'             # pipe through 'more'
+alias lr='ls -lR'                   # recursive ls
+alias tree='tree -Csu'              # nice alternative to 'recursive ls'
+
+
+
+
+
+
+
+
+
+
+#----------------------------------------------------------
+# work space alias.
+#---------------------------------------------------------
+
+. ~/.workrc
